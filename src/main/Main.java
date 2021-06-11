@@ -51,7 +51,7 @@ public class Main {
                         }
 
                         try {
-                            System.out.println("> Trying to resize " + getImageName(Path.of(resizedJpgImage)) + " => " + getImageNameWithoutSuffix(inputPngImage) + ".jpg");
+                            System.out.println("> Trying to resize " + getImageName(Paths.get(resizedJpgImage)) + " => " + getImageNameWithoutSuffix(inputPngImage) + ".jpg");
                             resizeCompressedJPGImage(temporaryJPG, resizedJpgImage);
                             System.out.println("> Successful resizing!");
                         } catch (IOException e) {
