@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="imageCompJava:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/imageCompJava_jar</output-path>
+    <root id="archive" name="imageCompJava.jar">
+      <element id="module-output" name="imageCompJava" />
+    </root>
+  </artifact>
+</component>
