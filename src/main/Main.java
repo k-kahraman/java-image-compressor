@@ -16,8 +16,9 @@ public class Main {
 
     private final static String PATH = Paths.get(System.getProperty("user.home"), "MeasurementImages").toString();
     private final static float QUALITY = 0.3f;
+
     private final static int WIDTH = 1200;
-    private final static int HEIGHT = 1400;
+    private final static int HEIGHT = 900;
 
     public static void main(String[] args) throws IOException {
         File directory;
@@ -30,14 +31,14 @@ public class Main {
             System.exit(0);
         }
 
+        System.out.println("Starting:");
         try (Stream<Path> paths = Files.walk(Paths.get(PATH))) {
             paths.filter(file -> Files.isRegularFile(file) && Main.isFilePNG(file))
                     .forEach(imagePath -> {
+                        System.out.println("--------------------------------------------------------------");
                         String inputPngImage = getImageName(imagePath);
                         String temporaryJPG = convertFilePathToTemporaryJPG(imagePath);
                         String resizedJpgImage = convertFilePathToJPG(imagePath);
-                        System.out.println(resizedJpgImage);
-                        System.out.println(resizedJpgImage);
                         try {
                             System.out.println("> Trying to convert " + inputPngImage + " => " + getImageNameWithoutSuffix(inputPngImage) + ".jpg");
                             try {
@@ -50,19 +51,21 @@ public class Main {
                         }
 
                         try {
-                            System.out.println("> Trying to resize " + getImageName(Path.of(resizedJpgImage)) + " => " + getImageNameWithoutSuffix(inputPngImage) + ".jpg\n");
+                            System.out.println("> Trying to resize " + getImageName(Path.of(resizedJpgImage)) + " => " + getImageNameWithoutSuffix(inputPngImage) + ".jpg");
                             resizeCompressedJPGImage(temporaryJPG, resizedJpgImage);
                             System.out.println("> Successful resizing!");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                         deleteTemporaryCompressedFile(temporaryJPG);
+                        System.out.println("--------------------------------------------------------------\n");
                     });
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("Terminating because of " + ex.getMessage());
             System.exit(0);
         }
+        System.out.println("Compression done. Closing...");
     }
 
     private static File gotoWorkingDirectory(String path) throws FileNotFoundException {
@@ -76,7 +79,7 @@ public class Main {
 
     private static String getImageName(Path imagePath) {
         String imagePathInString = imagePath.toString();
-        List<String> directories = new ArrayList<String>(Arrays.asList(imagePathInString.split("/").clone()));
+        List<String> directories = new ArrayList<String>(Arrays.asList(imagePathInString.split(File.separator.equals ("\\") ? "\\\\" : "/")));
 
         return directories.get(4);
     }
